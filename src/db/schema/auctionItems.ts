@@ -15,7 +15,7 @@ export const auctionItemTypeEnum = pgEnum('auction-item-type', [
     'several'
 ])
 
-export const auctionsItems = pgTable('auctions-itens', {
+export const auctionItems = pgTable('auction-items', {
     id: text().primaryKey(),
     auctionId: text().notNull().references(() => schema.auctions.id),
     batchNumber: integer().notNull(),
@@ -30,6 +30,6 @@ export const auctionsItems = pgTable('auctions-itens', {
     location: text().notNull(),
     winnerUserId: text().references(() => schema.users.id),
 
-    ccreatedAt: timestamp().defaultNow().notNull(),
+    createdAt: timestamp().defaultNow().notNull(),
     updatedAt: timestamp().defaultNow().notNull()
 })

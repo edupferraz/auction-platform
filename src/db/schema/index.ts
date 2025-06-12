@@ -1,9 +1,9 @@
 import { auctions } from "./auctions.ts";
-import { auctionsItems } from "./auctionsItems.ts";
+import { auctionItems } from "./auctionItems.ts";
 import { users } from "./users.ts";
 
 export const schema: any = {
     auctions,
-    auctionsItems,
+    auctionItems,
     users
 }
