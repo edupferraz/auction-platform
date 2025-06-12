@@ -9,92 +9,34 @@
     "description" : "SwaggerHub API Auto Mocking",
     "url" : "https://virtserver.swaggerhub.com/ifsc-910/auction-platform/1.0.0"
   }, {
-    "url" : "http://localhost:3000/api"
+    "url" : "http://localhost:3000/api",
+    "description" : "Local server"
   } ],
   "tags" : [ {
-    "name" : "Auth"
+    "name" : "Admin",
+    "description" : "Administrator operations"
   }, {
-    "name" : "Users"
+    "name" : "Auctions",
+    "description" : "Auction-related operations"
   }, {
-    "name" : "Auctions"
+    "name" : "Bids",
+    "description" : "Bid-related operations"
   }, {
-    "name" : "Auction Items"
+    "name" : "Participants",
+    "description" : "Participant management"
   }, {
-    "name" : "Bids"
+    "name" : "Notifications",
+    "description" : "Notifications and alerts"
   }, {
-    "name" : "Notifications"
+    "name" : "Application",
+    "description" : "System application operations"
   } ],
   "paths" : {
-    "/auth/register" : {
+    "/admin/auctions" : {
       "post" : {
-        "tags" : [ "Auth" ],
-        "summary" : "Register a new user",
-        "requestBody" : {
-          "required" : true,
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/RegisterUser"
-              }
-            }
-          }
-        },
-        "responses" : {
-          "201" : {
-            "description" : "User created"
-          }
-        }
-      }
-    },
-    "/users/{userId}" : {
-      "get" : {
-        "tags" : [ "Users" ],
-        "summary" : "Get user by ID",
-        "parameters" : [ {
-          "name" : "userId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "User data",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auctions" : {
-      "get" : {
-        "tags" : [ "Auctions" ],
-        "summary" : "List active and upcoming auctions",
-        "responses" : {
-          "200" : {
-            "description" : "List of auctions",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Auction"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "Auctions" ],
+        "tags" : [ "Admin" ],
         "summary" : "Create a new auction",
+        "description" : "Admin creates an auction.",
         "requestBody" : {
           "required" : true,
           "content" : {
@@ -107,39 +49,16 @@
         },
         "responses" : {
           "201" : {
-            "description" : "Auction created"
+            "description" : "Auction created successfully"
           }
         }
       }
     },
-    "/auctions/{auctionId}" : {
-      "get" : {
-        "tags" : [ "Auctions" ],
-        "summary" : "Get auction by ID with items and bids",
-        "parameters" : [ {
-          "name" : "auctionId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Auction details",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/AuctionWithItems"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/admin/auctions/{auctionId}" : {
       "put" : {
-        "tags" : [ "Auctions" ],
-        "summary" : "Update an auction",
+        "tags" : [ "Admin" ],
+        "summary" : "Edit an existing auction",
+        "description" : "Admin edits an auction by ID.",
         "parameters" : [ {
           "name" : "auctionId",
           "in" : "path",
@@ -149,6 +68,7 @@
           }
         } ],
         "requestBody" : {
+          "required" : true,
           "content" : {
             "application/json" : {
               "schema" : {
@@ -159,13 +79,14 @@
         },
         "responses" : {
           "200" : {
-            "description" : "Auction updated"
+            "description" : "Auction updated successfully"
           }
         }
       },
       "delete" : {
-        "tags" : [ "Auctions" ],
+        "tags" : [ "Admin" ],
         "summary" : "Delete an auction",
+        "description" : "Admin deletes an auction by ID.",
         "parameters" : [ {
           "name" : "auctionId",
           "in" : "path",
@@ -176,15 +97,117 @@
         } ],
         "responses" : {
           "204" : {
-            "description" : "Deleted successfully"
+            "description" : "Auction deleted successfully"
+          }
+        }
+      }
+    },
+    "/admin/participants" : {
+      "post" : {
+        "tags" : [ "Admin" ],
+        "summary" : "Register a new participant",
+        "description" : "Admin registers a new participant.",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/NewParticipant"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Participant registered successfully"
+          }
+        }
+      }
+    },
+    "/auctions" : {
+      "get" : {
+        "tags" : [ "Auctions" ],
+        "summary" : "List active and upcoming auctions",
+        "description" : "List all auctions that are active or scheduled.",
+        "responses" : {
+          "200" : {
+            "description" : "List of auctions",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AuctionWithItems"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auctions/{auctionId}" : {
+      "get" : {
+        "tags" : [ "Auctions" ],
+        "summary" : "Get auction details and bids",
+        "description" : "View auction details, including bids.",
+        "parameters" : [ {
+          "name" : "auctionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Auction details with bids",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuctionWithItems"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auctions/{auctionId}/participants" : {
+      "get" : {
+        "tags" : [ "Participants" ],
+        "summary" : "List participants of an auction",
+        "description" : "Retrieve a list of participants registered for a specific auction.",
+        "parameters" : [ {
+          "name" : "auctionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "List of participants",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas.Participant"
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/auctions/{auctionId}/participate" : {
       "post" : {
-        "tags" : [ "Auctions" ],
-        "summary" : "Register user in an auction",
+        "tags" : [ "Participants" ],
+        "summary" : "Participate in an auction",
+        "description" : "Register to participate in an auction.",
         "parameters" : [ {
           "name" : "auctionId",
           "in" : "path",
@@ -194,13 +217,15 @@
           }
         } ],
         "requestBody" : {
+          "required" : true,
           "content" : {
             "application/json" : {
               "schema" : {
                 "type" : "object",
                 "properties" : {
                   "userId" : {
-                    "type" : "string"
+                    "type" : "string",
+                    "description" : "Participant's user ID"
                   }
                 }
               }
@@ -218,6 +243,7 @@
       "post" : {
         "tags" : [ "Bids" ],
         "summary" : "Place a bid",
+        "description" : "Place a bid on an auction item.",
         "requestBody" : {
           "required" : true,
           "content" : {
@@ -230,7 +256,27 @@
         },
         "responses" : {
           "201" : {
-            "description" : "Bid placed"
+            "description" : "Bid placed successfully"
+          }
+        }
+      }
+    },
+    "/notifications/new-bid/{auctionId}" : {
+      "post" : {
+        "tags" : [ "Notifications" ],
+        "summary" : "Notify participants of new bids",
+        "description" : "Notify all participants when a new bid is placed.",
+        "parameters" : [ {
+          "name" : "auctionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Notification sent"
           }
         }
       }
@@ -238,7 +284,8 @@
     "/notifications/last-minute/{auctionId}" : {
       "post" : {
         "tags" : [ "Notifications" ],
-        "summary" : "Send last-minute alerts to users",
+        "summary" : "Send last-minute alerts",
+        "description" : "Notify participants in the last 60 seconds of an auction.",
         "parameters" : [ {
           "name" : "auctionId",
           "in" : "path",
@@ -257,7 +304,8 @@
     "/notifications/auction-end/{auctionId}" : {
       "post" : {
         "tags" : [ "Notifications" ],
-        "summary" : "Notify all users and winner after auction ends",
+        "summary" : "Notify auction end and winner",
+        "description" : "Notify all participants and winner when auction ends.",
         "parameters" : [ {
           "name" : "auctionId",
           "in" : "path",
@@ -272,50 +320,141 @@
           }
         }
       }
+    },
+    "/auctions/{auctionId}/start" : {
+      "post" : {
+        "tags" : [ "Application" ],
+        "summary" : "Start an auction automatically",
+        "description" : "Start the auction at scheduled time.",
+        "parameters" : [ {
+          "name" : "auctionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Auction started"
+          }
+        }
+      }
+    },
+    "/auctions/{auctionId}/end" : {
+      "post" : {
+        "tags" : [ "Application" ],
+        "summary" : "End an auction automatically",
+        "description" : "End the auction at scheduled time.",
+        "parameters" : [ {
+          "name" : "auctionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Auction ended"
+          }
+        }
+      }
     }
   },
   "components" : {
     "schemas" : {
-      "RegisterUser" : {
-        "type" : "object",
-        "required" : [ "name", "email", "password" ],
-        "properties" : {
-          "name" : {
-            "type" : "string"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "password" : {
-            "type" : "string"
-          }
-        }
-      },
-      "User" : {
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "email" : {
-            "type" : "string"
-          }
-        }
-      },
       "NewAuction" : {
         "type" : "object",
-        "required" : [ "startDate", "finishDate", "type" ],
+        "required" : [ "startDate", "finishDate", "type", "items" ],
         "properties" : {
           "startDate" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date-time",
+            "example" : "2025-12-01T10:00:00Z"
           },
           "finishDate" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date-time",
+            "example" : "2025-12-01T12:00:00Z"
+          },
+          "type" : {
+            "type" : "string",
+            "enum" : [ "buy", "sale" ],
+            "example" : "sale"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "waiting", "ongoing", "finished", "canceled" ],
+            "example" : "waiting"
+          },
+          "items" : {
+            "type" : "array",
+            "minItems" : 1,
+            "items" : {
+              "$ref" : "#/components/schemas/AuctionItem"
+            }
+          }
+        }
+      },
+      "AuctionItem" : {
+        "type" : "object",
+        "required" : [ "id", "name", "initialValue", "quantity" ],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "example" : "item123"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "Antique Vase"
+          },
+          "description" : {
+            "type" : "string",
+            "example" : "A beautiful vintage vase from 1920s."
+          },
+          "category" : {
+            "type" : "string",
+            "example" : "Antiques"
+          },
+          "imageUrl" : {
+            "type" : "string",
+            "format" : "uri",
+            "example" : "http://example.com/image.jpg"
+          },
+          "initialValue" : {
+            "type" : "integer",
+            "example" : 100
+          },
+          "value" : {
+            "type" : "integer",
+            "example" : 150
+          },
+          "quantity" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "location" : {
+            "type" : "string",
+            "example" : "New York Warehouse"
+          }
+        }
+      },
+      "AuctionWithItems" : {
+        "type" : "object",
+        "required" : [ "id", "startDate", "finishDate", "type", "status", "items", "bids" ],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "example" : "auction123"
+          },
+          "startDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "finishDate" : {
+            "type" : "string",
+            "format" : "date-time"
           },
           "type" : {
             "type" : "string",
@@ -324,117 +463,54 @@
           "status" : {
             "type" : "string",
             "enum" : [ "waiting", "ongoing", "finished", "canceled" ]
-          }
-        }
-      },
-      "Auction" : {
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string"
           },
-          "startDate" : {
-            "type" : "string",
-            "format" : "date"
-          },
-          "finishDate" : {
-            "type" : "string",
-            "format" : "date"
-          },
-          "type" : {
-            "type" : "string"
-          },
-          "status" : {
-            "type" : "string"
-          }
-        }
-      },
-      "AuctionItem" : {
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "description" : {
-            "type" : "string"
-          },
-          "category" : {
-            "type" : "string"
-          },
-          "imageUrl" : {
-            "type" : "string"
-          },
-          "initialValue" : {
-            "type" : "integer"
-          },
-          "value" : {
-            "type" : "integer"
-          },
-          "quantity" : {
-            "type" : "integer"
-          },
-          "location" : {
-            "type" : "string"
-          }
-        }
-      },
-      "AuctionWithItems" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/Auction"
-        }, {
-          "type" : "object",
-          "properties" : {
+          "items" : {
+            "type" : "array",
+            "minItems" : 1,
             "items" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/AuctionItem"
-              }
-            },
-            "bids" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/Bid"
-              }
+              "$ref" : "#/components/schemas/AuctionItem"
+            }
+          },
+          "bids" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Bid"
             }
           }
-        } ]
+        }
       },
       "NewBid" : {
         "type" : "object",
         "required" : [ "userId", "auctionItemId", "amount" ],
         "properties" : {
           "userId" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "user123"
           },
           "auctionItemId" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "item123"
           },
           "amount" : {
-            "type" : "integer"
+            "type" : "integer",
+            "example" : 150
           }
         }
       },
       "Bid" : {
         "type" : "object",
+        "required" : [ "id", "auctionItemId", "userId", "amount", "createdAt" ],
         "properties" : {
           "id" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "bid123"
           },
           "auctionItemId" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "item123"
           },
           "userId" : {
             "type" : "string"
-          },
-          "amount" : {
-            "type" : "integer"
-          },
-          "createdAt" : {
-            "type" : "string",
-            "format" : "date-time"
           }
         }
       }
